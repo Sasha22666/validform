@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Valid_form</title>
+    <style>
+        div label {
+            float: left;
+        }
+
+        .inp_text,
+        .inp_number,
+        .inp_adres,
+        .sel_rubrika,
+        .inp_razm,
+        .inp_check {
+            margin-left: 150px;
+        }
+
+        div.inp_text input {
+            width: 800px;
+        }
+
+        div.inp_adres input {
+            width: 500px;
+        }
+
+        div.inp_number input {
+            width: 200px;
+        }
+
+        div.inp_razm p {
+            display: inline;
+        }
+
+        .invalid {
+            border-color: red;
+        }
+
+        #error {
+            color: red
+        }
+
+
+        textarea {
+            height: 30px;
+            width: 960px;
+            resize: none;
+        }
+    </style>
+</head>
+
+<body>
+    <form id=valid_forma action="https://fe.it-academy.by/TestForm.php" method="post">
+
+        <div>
+            <label for="razrabotchiki">Разработчики:</label>
+            <div class="inp_text" id='pole_razrabotchiki'><input type="text" name="razrabotchiki"></div>
+
+            <label for="nameSait">Название сайта:</label>
+            <div class="inp_text" id='pole_nameSait'><input type="text" name="nameSait"></div>
+
+            <label for="urlSait">URL сайта:</label>
+            <div class="inp_adres" id='pole_urlSait'><input type="text" name="urlSait"></div>
+
+            <label for="dataSait">Дата запуска сайта:</label>
+            <div class="inp_number" id='pole_dataSait'><input type="date" name="dataSait"></div>
+
+            <label for="posetiteli">Посетителей в сутки:</label>
+            <div class="inp_number" id='pole_posetiteli'><input type="number" name="posetiteli"></div>
+
+            <label for="emailSait">E-mail для связи:</label>
+            <div class="inp_adres" id='pole_emailSait'><input type="email" name="emailSait"></div>
+
+            <label for="rubrika">Рубрика каталога:</label>
+            <div class="sel_rubrika" id='pole_rubrika'><select name="rubrika">
+                    <option value="1">-не выбрано-</option>
+                    <option value="2">бытовая техника</option>
+                    <option value="3">автомобили</option>
+                    <option value="4">история</option>
+                    <option value="5">кулинария</option>
+                </select></div>
+
+            <label for="razmeshchenie">Размещение:</label>
+            <div class="inp_razm" id='pole_razmeshchenie'>
+                <p> <input type="radio" name="razmeshchenie" value="0" id="public1">бесплатное</p>
+                <p> <input type="radio" name="razmeshchenie" value="1">платное</p>
+                <p> <input type="radio" name="razmeshchenie" value="2">VIP</p>
+            </div>
+
+            <label for="agree">Разрешить отзывы:</label>
+            <div class="inp_check" id='pole_agree'>
+                <input type="checkbox" name="agree">
+            </div>
+        </div>
+        <label for="opisanie" id="area" style="display:block;">Описание сайта:</label>
+        <div class="area_opisanie" id='pole_opisanie'>
+
+            <textarea name="opisanie"></textarea>
+        </div>
+        <!--  кнопка публикации -->
+        <button type="submit">Опубликовать</button>
+    </form>
+
+    <script>
+        "use strict";
+        const form = document.getElementById('valid_forma');
+
+        const razrabotchikiField = form.elements.razrabotchiki;
+        razrabotchikiField.addEventListener('blur', validAuthor, false);
+        const razrabotchikiDiv = document.getElementById('pole_razrabotchiki');
+        const razrabotchikiMess = document.createElement('span');
+        razrabotchikiMess.style.color = 'red';
+        razrabotchikiDiv.appendChild(razrabotchikiMess);
+
+        function validAuthor(EO) {
+            EO = EO || window.event;
+            if (!razrabotchikiField.value) {
+                razrabotchikiMess.textContent = 'Поле не может быть пустым!';
+             }
+            else razrabotchikiMess.textContent = null;
+
+        }
+
+        const nameSaitField = form.elements.nameSait;
+        nameSaitField.addEventListener('blur', validNameSait, false);
+        const nameSaitDiv = document.getElementById('pole_nameSait');
+        const nameSaitMess = document.createElement('span');
+        nameSaitMess.style.color = 'red';
+        nameSaitDiv.appendChild(nameSaitMess);
+
+        function validNameSait(EO) {
+            EO = EO || window.event;
+            if (!nameSaitField.value) {
+                nameSaitMess.textContent = 'Вы не ввели название сайта!';
+            }
+            else nameSaitMess.textContent = null;
+        }
+
+        const urlSaitField = form.elements.urlSait;
+        urlSaitField.addEventListener('blur', validUrlSait, false);
+        const urlSaitDiv = document.getElementById('pole_urlSait');
+        const urlSaitMess = document.createElement('span');
+        urlSaitMess.style.color = 'red';
+        urlSaitDiv.appendChild(urlSaitMess);
+
+        function validUrlSait(EO) {
+            EO = EO || window.event;
+            if (!urlSaitField.value.includes('.')) {
+                urlSaitMess.textContent = 'Вы не корректно ввели адрес сайта!';
+             }
+            else urlSaitMess.textContent = null;
+        }
+
+        const dataSaitField = form.elements.dataSait;
+        dataSaitField.addEventListener('blur', validDataSait, false);
+        const dataSaitDiv = document.getElementById('pole_dataSait');
+        const dataSaitMess = document.createElement('span');
+        dataSaitMess.style.color = 'red';
+        dataSaitDiv.appendChild(dataSaitMess);
+
+        function validDataSait(EO) {
+            EO = EO || window.event;
+            if (!dataSaitField.value) {
+                dataSaitMess.textContent = 'Вы не ввели дату создания сайта!';
+            }
+            else dataSaitMess.textContent = null;
+        }
+
+        const posetiteliField = form.elements.posetiteli;
+        posetiteliField.addEventListener('blur', validPosetiteli, false);
+        const posetiteliDiv = document.getElementById('pole_posetiteli');
+        const posetiteliMess = document.createElement('span');
+        posetiteliMess.style.color = 'red';
+        posetiteliDiv.appendChild(posetiteliMess);
+
+        function validPosetiteli(EO) {
+            EO = EO || window.event;
+            if (!posetiteliField.value) {
+                posetiteliMess.textContent = 'Вы не ввели количество посетителей сайта!';
+            }
+            else posetiteliMess.textContent = null;
+        }
+
+        const emailSaitField = form.elements.emailSait;
+        emailSaitField.addEventListener('blur', validEmail, false);
+        const emailDiv = document.getElementById('pole_emailSait');
+        const emailMess = document.createElement('span');
+        emailMess.style.color = 'red';
+        emailDiv.appendChild(emailMess);
+
+        function validEmail(EO) {
+            EO = EO || window.event;
+            if (!emailSaitField.value.includes('@')) {
+                emailMess.textContent = 'Вы некорректно ввели e-mail сайта!';
+            }
+            else emailMess.textContent = null;
+        }
+
+        const rubrikaSel = form.elements.rubrika;
+        rubrikaSel.addEventListener('change', validSelect, false);
+        rubrikaSel.addEventListener('blur', validSelect, false);
+        const rubrikaDiv = document.getElementById('pole_rubrika');
+        const rubrikaMess = document.createElement('span');
+        rubrikaMess.style.color = 'red';
+        rubrikaDiv.appendChild(rubrikaMess);
+
+        function validSelect(EO) {
+            EO = EO || window.event;
+            if (rubrikaSel.value == 1) {
+                rubrikaMess.textContent = 'Вы не выбрали рубрику сайта!';
+            }
+            else rubrikaMess.textContent = null;
+        }
+
+        const razmeshchenieRadios = form.elements.razmeshchenie;
+        for (let i = razmeshchenieRadios.length - 1; i >= 0; i--) {
+            let razmeshchenieRadio = razmeshchenieRadios[i];
+            razmeshchenieRadio.addEventListener('blur', validRadio, false);
+            razmeshchenieRadio.addEventListener('change', validRadio, false);
+        };
+        const razmDiv = document.getElementById('pole_razmeshchenie');
+        const razmMess = document.createElement('span');
+        razmMess.style.color = 'red';
+        razmDiv.appendChild(razmMess);
+
+        function validRadio(EO) {
+            EO = EO || window.event;
+            if (razmeshchenieRadios.value == '') {
+                razmMess.textContent = 'Вы не выбрали способ размещения сайта!';
+            }
+            else razmMess.textContent = null;
+        }
+
+        const agreeCheck = form.elements.agree;
+        agreeCheck.addEventListener('change', validCheck, false);
+        agreeCheck.addEventListener('blur', validCheck, false);
+        const agreeDiv = document.getElementById('pole_agree');
+        const agreeMess = document.createElement('span');
+        agreeMess.style.color = 'red';
+        agreeDiv.appendChild(agreeMess);
+
+        function validCheck(EO) {
+            EO = EO || window.event;
+            if (!agreeCheck.checked) {
+                agreeMess.textContent = 'Вы не разрешили отзывы!';
+            }
+            else agreeMess.textContent = null;
+        }
+
+        const opisanieField = form.elements.opisanie;
+        opisanieField.addEventListener('blur', validArea, false);
+        const opisanieDiv = document.getElementById('pole_opisanie');
+        const opisanieMess = document.createElement('span');
+        opisanieMess.style.color = 'red';
+        opisanieDiv.appendChild(opisanieMess);
+
+        function validArea(EO) {
+            EO = EO || window.event;
+            if (!opisanieField.value) {
+                opisanieMess.textContent = 'Поле не может быть пустым!';
+            }
+            else opisanieMess.textContent = null;
+        }
+        form.addEventListener('submit', validforma, false);
+        function validforma(EO) {
+            EO = EO || window.event;
+            for (const formElem of EO.target) {
+
+                if (formElem.name === 'razrabotchiki') {
+                    validAuthor({ currentTarget: formElem });
+                }
+                if (formElem.name === 'nameSait') {
+                    validNameSait({ currentTarget: formElem });
+                }
+                if (formElem.name === 'urlSait') {
+                    validUrlSait({ currentTarget: formElem });
+                }
+                if (formElem.name === 'dataSait') {
+                    validDataSait({ currentTarget: formElem });
+                }
+                if (formElem.name === 'posetiteli') {
+                    validPosetiteli({ currentTarget: formElem });
+                }
+                if (formElem.name === 'emailSait') {
+                    validEmail({ currentTarget: formElem });
+                }
+                if (formElem.name === 'rubrika') {
+                    validSelect({ currentTarget: formElem });
+                }
+                if (formElem.name === 'razmeshchenie') {
+                    validRadio({ currentTarget: formElem });
+                }
+                if (formElem.name === 'agree') {
+                    validCheck({ currentTarget: formElem });
+                }
+                if (formElem.name === 'opisanie') {
+                    validArea({ currentTarget: formElem });
+                }
+            }
+
+            try {
+                if (razrabotchikiMess.textContent) {
+                    razrabotchikiField.focus();
+                    EO.preventDefault();
+                    return;
+                }
+                if (nameSaitMess.textContent) {
+                    nameSaitField.focus();
+                    EO.preventDefault();
+                    return;
+                }
+
+                if (urlSaitMess.textContent) {
+                    urlSaitField.focus();
+                    EO.preventDefault();
+                    return;
+                }
+
+                if (dataSaitMess.textContent) {
+                    dataSaitField.focus();
+                    EO.preventDefault();
+                    return;
+                }
+
+                if (posetiteliMess.textContent) {
+                    posetiteliField.focus();
+                    EO.preventDefault();
+                    return;
+                }
+
+                if (emailMess.textContent) {
+                    emailSaitField.focus();
+                    EO.preventDefault();
+                    return;
+                }
+
+                if (rubrikaMess.textContent) {
+                    rubrikaSel.focus();
+                    EO.preventDefault();
+                    return;
+                }
+
+                if (razmMess.textContent) {
+                    document.getElementById('public1').scrollIntoView();
+                    EO.preventDefault();
+                    return;
+                } else razmMess.textContent = null;
+
+                if (agreeMess.textContent) {
+                    agreeCheck.scrollIntoView();
+                    EO.preventDefault();
+                    return;
+                }
+
+                if (opisanieMess.textContent) {
+                    opisanieField.focus();
+                    EO.preventDefault();
+                    return;
+                }
+            }
+            catch (ex) {
+                EO.preventDefault();
+            }
+        }
+    </script>
+</body>
+</html>
